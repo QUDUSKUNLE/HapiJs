@@ -5,6 +5,7 @@ const basicAuthBasic = require('hapi-auth-basic');
 
 const auth = require('./src/middleware/basicAuthentication');
 const HapiController = require('./src/controllers/hapiController');
+const paths = require('./src/helpers/path');
 
 dotenv.config();
 const { validate } = auth;
@@ -16,16 +17,16 @@ const app = async () => {
 
   server.route([
     {
-      method: 'GET',
-      path: '/',
+      method: paths.methods.get,
+      path: paths.route.home,
       handler: async (req, res) => {
         const response = await HapiController.home(req);
         return res.response(response).code(200);
       },
     },
     {
-      method: 'POST',
-      path: '/v1/signup',
+      method: paths.methods.post,
+      path: paths.route.signup,
       handler: async (req, res) => {
         const response = await HapiController.signup(req);
         if (!response.success) return res.response(response).code(409);
@@ -33,8 +34,8 @@ const app = async () => {
       },
     },
     {
-      method: 'POST',
-      path: '/v1/signin',
+      method: paths.methods.post,
+      path: paths.route.signin,
       options: {
         log: {
           collect: true,
