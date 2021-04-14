@@ -7,10 +7,8 @@ module.exports = {
     if (!user) {
       return { credentials: null, isValid: false };
     }
-
     const isValid = Bcrypt.compare(password, user.password);
     const credentials = { id: user.id, name: user.name };
-
     return { isValid, credentials };
   },
 };

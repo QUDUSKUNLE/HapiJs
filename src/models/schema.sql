@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS koaschema.parties(
   party_name TEXT NOT NULL UNIQUE,
   hq_address TEXT NOT NULL,
   logo_url TEXT NOT NULL,
-  created_at timestamp with timezone DEFAULT now() NOT NULL,
-  updated_at timestamp with timezone DEFAULT now() NOT NULL
+  created_at timestamp DEFAULT now() NOT NULL,
+  updated_at timestamp DEFAULT now() NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS koaschema.offices(
@@ -27,6 +27,6 @@ CREATE TABLE IF NOT EXISTS koaschema.offices(
   user_id int references koaschema.users id,
   office_name TEXT NOT NULL,
   office_type TEXT NOT NULL,
-  created_at timestamp with timezone DEFAULT now() NOT NULL,
-  updated_at timestamp with timezone DEFAULT now() NOT NULL
+  created_at timestamp DEFAULT now() NOT NULL,
+  updated_at timestamp DEFAULT now() NOT NULL
 )

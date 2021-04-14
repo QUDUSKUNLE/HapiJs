@@ -3,14 +3,14 @@ const helpers = require('../helpers');
 
 
 class HapiController {
-  static home() {
-    return ({
+  static home(req, res) {
+    return res.response({
       message: 'Welcome to HapiJs Home',
       success: true,
-    });
+    }).code(200);
   }
 
-  static async signup(req) {
+  static async signup(req, res) {
     const {
       firstName, lastName, email,
       phoneNumber, password, isAdmin,
@@ -24,33 +24,33 @@ class HapiController {
         RETURNING id, email, is_admin`,
         [firstName, email, lastName, phoneNumber, isAdmin, hashed],
       );
-      return ({
+      return res.response({
         success: true,
         response: newUser.rows,
         message: 'User signed up successful',
-      });
+      }).code(201);
     } catch (error) {
-      return { success: false, message: error.detail };
+      return res.response({ success: false, message: error.detail }).code(400);
     }
   }
 
-  static async signin(req) {
+  static async signin(req, res) {
     const { email, password } = req.payload;
     const user = await db.query('select * from koaschema.users where email=$1', [email]);
     if (user.rows.length === 0) {
-      return {
+      return res.response({
         message: 'Email/Password is incorrect',
         success: false,
-      };
+      }).code(400);
     }
     const comparePassword = await helpers.compare(password, user.rows[0].pass);
     if (!comparePassword) {
-      return {
+      return res.response({
         message: 'Email/Password is incorrect',
         success: false,
-      };
+      }).code(400);
     }
-    return { success: true, message: 'User signin successful' };
+    return res.response({ success: true, message: 'User signin successful' }).code(200);
   }
 }
 
